@@ -5,13 +5,16 @@ import Routes from './routes';
 
 
 
+
 function App() {
   return (
 
-      <Container>
-        <h1>Hello</h1>
-        <Routes />
-      </Container>
+    <Container>
+      <h1>Hello</h1>
+      <div className="content">
+          <Routes />
+      </div>
+      </Container> 
       
   );
 }

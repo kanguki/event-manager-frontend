@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+/* font-family: 'Comfortaa', cursive; */
+* {
+    margin:0;
+    padding:0;
+    outline:0;
+    box-sizing: border-box;
+}
+html,body,#root {
+    min-width: 100%;
+}
+body {
+    background: rgba(255, 255, 255, 0.9) url('./assets/background.jpg') no-repeat;
+    background-size: cover;
+    -webkit-font-smoothing: antialiased !important;
+}
+body, input, button {
+    font-family: 'Comfortaa', cursive;
+    font-weight: 40px;
+}
+.container {
+    margin: 40px auto;
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container h1,h3 {
+    font-size: 50px;
+    font-family: 'Comfortaa', cursive;
+}
+.content {
+    width: 100%;
+    opacity: 0.9;
+    background: rgb(255, 255, 255);
+
+}
+form {
+    width: 80%;
+}
+.content > p{
+    font-size:22px;
+    line-height: 30px;
+    margin-bottom: 30px;
+}
+
+.content button.submit-btn {
+    margin-top: 10px;
+    border-radius: 2px;
+    width: 100%;
+    height: 42px;
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 700;
+    background: rgb(255, 65, 113);
+}
+.content button.submit-btn:hover{
+    background: rgb(41, 197, 20);
+}
+.content button.submit-btn:active{
+    background: rgb(255, 255, 255);
+    color: rgb(41, 197, 20);
+}
+.content button.secondary-btn {
+    background: transparent;
+    outline-color: rgb(255, 65, 113);
+    margin-top: 10px;
+    border-radius: 2px;
+    width: 100%;
+    height: 42px;
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: rgb(255, 65, 113);
+}

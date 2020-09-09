@@ -1,0 +1,33 @@
+
+label#thumbnail{
+    background:  rgba(255, 255, 255);
+    border: 1px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    align-content: center;
+    height: 100px;
+}
+
+label#thumbnail input {
+    display: none;
+}
+label#thumbnail.has-thumbnail {
+    border: 0;
+    
+}
+
+label#thumbnail.has-thumbnail img {
+    display: none;
+
+}
+
+.container > .validation-err {
+    margin-top: 10px;
+    max-width: 500px;
+}
+
+
