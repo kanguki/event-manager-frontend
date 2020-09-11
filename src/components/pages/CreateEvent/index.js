@@ -18,8 +18,9 @@ export default function EventsPage({history}) {
 
     const handleSubmit = async e => {
         e.preventDefault()
-        const user_id = localStorage.getItem('user')
-        if (!user_id) {
+        const token = localStorage.getItem('token')
+        
+        if (!token) {
             setErrorMember("You haven't logged in yet")
         } else {
             const eventData = new FormData()
@@ -32,7 +33,7 @@ export default function EventsPage({history}) {
             try {
                 if (thumbnail !== null && title !== "" && description !== "" &&
                     activity !== "" && date !== "" && price !== "") {
-                    await api.post('/events/add', eventData, { headers: { user_id } })
+                    await api.post('/events/add', eventData, { headers: { token } })
                     //remember to wrap user_id with {} or else it wont work  
                     setTimeout(() => {
                         history.push('/')

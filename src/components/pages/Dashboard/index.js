@@ -30,14 +30,13 @@ export default function Dashboard({history}) {
         setRSelected(prop)        
         getEvents(prop)
     }
-    
     const myEventsHandler = async () => {
-        setRSelected("myEvents")
+        setRSelected("myEvents") 
 
         try {           
-            if (token) {       
+            if (token && user_id) {      
                 const response = await api.get('/events/yourEvents', { headers: { token } })
-                setEvents(response.data)
+                setEvents(response.data.event)
             } else {
                 const message = "You havent signed in yet"
                 setErrAuth(message)
@@ -52,7 +51,7 @@ export default function Dashboard({history}) {
     const deleteHandler = async (event_id) => {
         let confirmDelete = window.confirm("Are you sure?");
         if (confirmDelete === true) {
-            await api.delete(`/events/remove/${event_id}`)
+            await api.delete(`/events/remove/${event_id}`,{headers:{token}})
             window.location.reload()
         } else {
             return 
