@@ -18,6 +18,16 @@ body, input, button {
     font-family: 'Comfortaa', cursive;
     font-weight: 40px;
 }
+::selection {
+    color: white;
+    background: rgb(0, 0, 0);
+}
+::-moz-selection{
+    color: white;
+    background: black;
+}
+
+
 .container {
     margin: 40px auto;
     max-width: 800px;
@@ -38,6 +48,7 @@ body, input, button {
 }
 form {
     width: 80%;
+    align-content: center;
 }
 .content > p{
     font-size:22px;
@@ -45,9 +56,10 @@ form {
     margin-bottom: 30px;
 }
 
-.content button.submit-btn {
+button.submit-btn.btn.btn-secondary {
     margin-top: 10px;
-    border-radius: 2px;
+    border-radius: 30px;
+    border: 0;
     width: 100%;
     height: 42px;
     padding: 0 10px;
@@ -55,18 +67,18 @@ form {
     font-weight: 700;
     background: rgb(255, 65, 113);
 }
-.content button.submit-btn:hover{
+button.submit-btn.btn.btn-secondary:hover{
     background: rgb(41, 197, 20);
 }
-.content button.submit-btn:active{
+button.submit-btn.btn.btn-secondary:active{
     background: rgb(255, 255, 255);
     color: rgb(41, 197, 20);
 }
-.content button.secondary-btn {
+button.secondary-btn.btn.btn-secondary {
     background: transparent;
-    outline-color: rgb(255, 65, 113);
+    border: 1px solid rgb(255, 65, 113);
     margin-top: 10px;
-    border-radius: 2px;
+    border-radius: 30px;
     width: 100%;
     height: 42px;
     padding: 0 10px;
@@ -74,3 +86,140 @@ form {
     font-weight: 700;
     color: rgb(255, 65, 113);
 }
+button.secondary-btn.btn.btn-secondary:hover{
+    background: transparent;
+    border: rgb(41, 197, 20) 1px solid;
+    color:rgb(41, 197, 20);
+}
+button.secondary-btn.btn.btn-secondary:active{
+    background: transparent;
+    color:rgb(41, 197, 20);
+}
+button.sub-btn.btn.btn-secondary {
+    border-radius: 30px;
+    border: 0;
+    height: 27px;
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 700;
+    background: rgba(240, 90, 140, 0.767);
+    float: right;
+    overflow: hidden;
+    display: flex;
+    
+}
+button.sub-btn.btn.btn-secondary:hover{
+    background: rgb(41, 197, 20);
+}
+div.side-btn{
+    display: flex;
+    flex-direction: row-reverse;
+}
+button.side-btn.btn.btn-secondary {
+    border-radius: 30px;
+    border: 0;
+    height: 30px;
+    padding:2px ;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    background: transparent;
+    color: rgba(240, 90, 140, 0.767);
+    
+}
+button.side-btn.btn.btn-secondary.active{
+    background:rgb(255, 255, 255)  !important;
+    color: rgb(41, 197, 20);
+}
+
+
+button.side-btn.btn.btn-secondary:hover{
+    border:  rgba(240, 90, 140, 0.767) 1px solid;
+    background: transparent;
+}
+
+button.sub-btn.btn.btn-secondary.modi{
+    background: #545b6296;
+    color: black;
+}
+button.sub-btn.btn.btn-secondary.modi.upd:hover{
+    background: #ffc65b;
+    color: rgb(255, 255, 255);
+}
+button.sub-btn.btn.btn-secondary.modi.del:hover{
+    background: #ff0202;
+    color: rgb(255, 255, 255);
+}
+button.btn.btn-secondary{
+    background-color: rgb(185, 185, 185) ;
+    border: none;
+    margin: 2px;
+}
+button.btn.btn-secondary:hover{
+    background-color: #545b62 ;
+    border: none;
+    margin: 2px;
+}
+
+
+input {
+    margin: auto 5px;   
+}
+
+.card-header span#long-title {
+    width: 50px;
+    overflow: hidden;
+}
+@media (min-width: 576px){
+    .container{
+        max-width: 660px;
+    }
+}
+
+
+
+
+@media (min-width: 576px){
+   .root{
+    margin: 0;
+    padding: 0;
+   }
+   .card-header span#long-title {
+       font-size: 14px;
+   }
+   .container {
+       max-width: 950px;
+   }
+}
+@media (min-width: 960px){
+    .root{
+        margin: 0;
+        padding: 0;
+       }
+
+}
+.btn-group{
+    display:grid !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 5px 0 2px;
+}
+
+
+@media (max-width: 1000px){
+    .btn-group{
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+@media (max-width: 775px){
+    .btn-group{
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
+    }
+}
+
+@media (max-width:540px){
+    .btn-group{
+    grid-template-columns: 1fr 1fr 1fr ;
+    }
+}
+
+

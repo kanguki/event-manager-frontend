@@ -1,9 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Register from './pages/Register';
-import EventsPage from './pages/CreateEvent';
+import Login from './components/pages/Login';
+import Dashboard from './components/pages/Dashboard';
+import Register from './components/pages/Register';
+import EventsPage from './components/pages/CreateEvent';
 
 
 export default function Routes() {

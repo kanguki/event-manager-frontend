@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import api from '../../services/api'
+import api from '../../../services/api'
 import { Button, Form, FormGroup, Input, Container, Col, Alert, Row } from 'reactstrap';
 
 export default function Register({history}) {
@@ -19,11 +19,13 @@ export default function Register({history}) {
             },2000)
         } else {
             const response = await api.post('/sign-up', { email, password, firstName, lastName })
-            const userId = response.data._id || false;
+            const token = response.data.token || false;
+            const user_id = response.data.user_id || false
 
-            if (userId) {
-                localStorage.setItem('user', userId)
-                history.push('/dashboard')
+            if (user_id && token) {
+                localStorage.setItem('token', token)
+                localStorage.setItem('user_id', user_id)
+                history.push('/')
             } else {
                 const { message } = response.data
                 setErrorMember(message)
@@ -38,32 +40,32 @@ export default function Register({history}) {
 
     return (
         <Container>
-            <h1>Sign up to discover our events</h1>
+            <h6>Sign up</h6>
             <Form onSubmit={handleSubmit}>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <FormGroup >
                     <Input name="firstName" id="firstName" placeholder="Your First Name"
                         onChange={e => setFirstName(e.target.value)}/>
                 </FormGroup>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <FormGroup >
                     <Input name="lastName" id="lastName" placeholder="Your Last Name"
                         onChange={e => setLastName(e.target.value)}/>
                 </FormGroup>
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <FormGroup >
                     <Input type="email" name="email" id="email" placeholder="Your Email"
                         onChange={e => setEmail(e.target.value)}/>
                 </FormGroup>
 
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <FormGroup >
                     <Input type="password" name="password" id="password" placeholder="Your Password"
                     onChange={e => setPassword(e.target.value)}/>
                 </FormGroup>
                 <Row>
 
                 <Col xs="6" sm="8">
-                    <Button className="submit-btn" >Create new account</Button>
+                    <Button className="submit-btn" >Sign up</Button>
                 </Col>
-                <h4>or</h4>
-                <Col xs="6" sm="3">
+                
+                <Col xs="6" sm="4">
                     <Button className="secondary-btn" onClick={() => history.push('/login')}>
                         Sign in
                     </Button>

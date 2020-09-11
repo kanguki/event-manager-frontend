@@ -1,15 +1,15 @@
 //get data from form, put it into a FormData instance, append properties, send with headers: {user_id}
 
 import React, { useState, useMemo } from 'react'
-import api from '../../services/api'
+import api from '../../../services/api'
 import { Button, Form, FormGroup, Input, Container, Label, Alert, Col } from 'reactstrap';
-import cameraIcon from "../../assets/camera.png"
+import cameraIcon from "../../../assets/camera.png"
 import './events.css'
 
 export default function EventsPage({history}) {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [price, setPrice] = useState()
+    const [price, setPrice] = useState("")
     const [thumbnail, setThumbnail] = useState(null)
     const [activity, setActivity] = useState("")
     const [date, setDate] = useState("")
@@ -22,7 +22,6 @@ export default function EventsPage({history}) {
         if (!user_id) {
             setErrorMember("You haven't logged in yet")
         } else {
-
             const eventData = new FormData()
             eventData.append('thumbnail', thumbnail)
             eventData.append('title', title)
@@ -32,9 +31,13 @@ export default function EventsPage({history}) {
             eventData.append('price', price)
             try {
                 if (thumbnail !== null && title !== "" && description !== "" &&
-                    activity!=="" && date!=="" && price!=="" ) {
+                    activity !== "" && date !== "" && price !== "") {
                     await api.post('/events/add', eventData, { headers: { user_id } })
-                    //remember to wrap user_id with {} or else it wont work                
+                    //remember to wrap user_id with {} or else it wont work  
+                    setTimeout(() => {
+                        history.push('/')
+                    }, 1000)
+                    
                 } else {
                     setErrorMessage(true)
                     setTimeout(() => {
@@ -56,16 +59,20 @@ export default function EventsPage({history}) {
         return thumbnail ? URL.createObjectURL(thumbnail) : null
     },[thumbnail])
     return (
-        <Container>
+        <Container> 
+            <Button className="side-btn" onClick={()=>history.push('/')}>Back to dashboard</Button>
             <h3>In here you can create your own events!</h3>
             <Form onSubmit={handleSubmit}>
+{/* TITLE */}
                 <FormGroup row>
                     <Label for="title" sm={2}><h6>Title: </h6></Label>
                     <Col sm={10}>
-                        <Input id="title" placeholder="Title of event" value={title}
+                        <Input id="title" placeholder="Title of event (maximum number of letters: 25)"
+                            value={title} maxLength="25"
                             onChange={e => setTitle(e.target.value)} />
                     </Col>
                 </FormGroup>
+{/* DATE */}
                 <FormGroup row>
                     <Label for="date" sm={2}><h6>Date: </h6></Label>
                     <Col sm={10}>
@@ -73,11 +80,13 @@ export default function EventsPage({history}) {
                             onChange={e => setDate(e.target.value)} />
                     </Col>
                 </FormGroup>
+{/* ACTITVITY */}
                 <FormGroup row>
                     <Label for="activity" sm={2}><h6>Activity: </h6></Label>
                     <Col sm={10}>
-                    <Input id="activity" placeholder="Main activity of event" value={activity}
-                        onChange={e => setActivity(e.target.value)} />
+                        <Input id="activity" value={activity} maxLength="10"
+                            placeholder="(Lower case) Main activity of event (maximum number of letters: 10) "                            
+                            onChange={e => setActivity(e.target.value)} />
                     </Col>
                 </FormGroup>
 {/* upload image                */}
@@ -88,6 +97,7 @@ export default function EventsPage({history}) {
                         <img src={cameraIcon} alt="icon" style={{ maxWidth: "50px" }} />                        
                     </Label>
                 </FormGroup>
+{/* DESCRIPTION */}
                 <FormGroup row>
                     <Label for="description" sm={2}><h6>Description: </h6></Label>
                     <Col sm={10}>
@@ -95,11 +105,12 @@ export default function EventsPage({history}) {
                             value={description} onChange={e => setDescription(e.target.value)} />
                     </Col>
                 </FormGroup>
+{/* PRICE */}
                 <FormGroup row>
-                    <Label for="number" sm={2}><h6>Price: </h6></Label>
+                    <Label for="price" sm={2}><h6>Price: </h6></Label>
                     <Col sm={10}>
                         <Input type="number" id="price" placeholder="VND" value={price}
-                            onChange={e => setPrice(e.target.value)} />
+                           onChange={e => setPrice(e.target.value)} />
                     </Col>
                 </FormGroup>
                 
