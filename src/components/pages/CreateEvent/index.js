@@ -67,7 +67,7 @@ export default function EventsPage({history}) {
                 <FormGroup row>
                     <Label for="title" sm={2}><h6>Title: </h6></Label>
                     <Col sm={10}>
-                        <Input id="title" placeholder="Title of event (maximum number of letters: 25)"
+                        <Input id="title" placeholder="Keep it brief"
                             value={title} maxLength="25"
                             onChange={e => setTitle(e.target.value)} />
                     </Col>
@@ -85,7 +85,7 @@ export default function EventsPage({history}) {
                     <Label for="activity" sm={2}><h6>Activity: </h6></Label>
                     <Col sm={10}>
                         <Input id="activity" value={activity} maxLength="10"
-                            placeholder="(Lower case) Main activity of event (maximum number of letters: 10) "                            
+                            placeholder="(lowercase) number of letters<=10 "                            
                             onChange={e => setActivity(e.target.value)} />
                     </Col>
                 </FormGroup>

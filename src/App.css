@@ -154,6 +154,7 @@ button.btn.btn-secondary{
     background-color: rgb(185, 185, 185) ;
     border: none;
     margin: 2px;
+    padding: 2px;
 }
 button.btn.btn-secondary:hover{
     background-color: #545b62 ;
@@ -170,56 +171,70 @@ input {
     width: 50px;
     overflow: hidden;
 }
-@media (min-width: 576px){
-    .container{
-        max-width: 660px;
-    }
-}
 
-
-
-
-@media (min-width: 576px){
-   .root{
-    margin: 0;
-    padding: 0;
-   }
-   .card-header span#long-title {
-       font-size: 14px;
-   }
-   .container {
-       max-width: 950px;
-   }
-}
-@media (min-width: 960px){
-    .root{
-        margin: 0;
-        padding: 0;
-       }
-
-}
 .btn-group{
     display:grid !important;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     padding: 5px 0 2px;
 }
+.separate{
+    display:grid !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 5px 0 2px;
+}
 
+@media (min-width: 576px){
+    .container{
+        max-width: 1000px !important;
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
+    .root{
+        margin: 0;
+        padding: 0;
+       }
+    .card-header span#long-title {
+           font-size: 14px;
+    }
+}
 
 @media (max-width: 1000px){
     .btn-group{
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     }
+    .separate{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        }
 }
 @media (max-width: 775px){
     .btn-group{
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+    .separate{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        }
+}
+@media (max-width: 675px){
+    .btn-group{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
+        }
+    .separate{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
     }
 }
-
 @media (max-width:540px){
     .btn-group{
-    grid-template-columns: 1fr 1fr 1fr ;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    .separate{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }
-
-
+@media (max-width:360px){
+    .btn-group{
+    grid-template-columns: 1fr 1fr 1fr;
+    }
+    .separate{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}

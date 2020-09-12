@@ -23,6 +23,7 @@ export default function Login({history}) {
                     localStorage.setItem('token', token)
                     localStorage.setItem('user_id', userId)
                     history.push('/')
+                    window.location.reload()
                 } else {
                     const { message } = response.data
                     setErrorAuth(message)

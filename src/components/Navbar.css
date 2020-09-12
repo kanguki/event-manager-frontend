@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+/* font-family: 'Comfortaa', cursive; */
 .nav{
     display: flex;
     background-color: #1c2237;
@@ -39,23 +41,39 @@ li.nav-item {
 li.nav-item:hover{
     border-bottom: rgb(58, 255, 58) solid 2px;
 }
-a.nav-link{
-    height: 100%;
-}
+
 a.nav-link {
+    height: 100%;
     color: rgb(199, 195, 195);
     display: flex;
     align-items: center;
     text-decoration: none;
     padding: 0.5rem 1rem;
-    height: 100%;
+
+    cursor: pointer;
+}
+li.nav-item.log{
+    background-color: #545b6296;  
+    border: 1px transparent solid; 
+    border-radius: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
 
 }
+li.nav-item.log:hover{
+    background-color: #596470e8;
+
+}
+
 
 a.nav-link:hover{
     color: #fff;
     transform: scale(1.2);
-    transition: all 0.1s ease-in-out;
+    transition: all 0.05s ease-in-out;
 } 
 .logo{
     color: #fff;
@@ -65,6 +83,13 @@ a.nav-link:hover{
     font-size: 2rem;
     display: flex;
     align-items: center;
+    font-weight: 900;
+    font-family: 'Comfortaa', cursive;
+}
+.logo:hover{
+    text-decoration: none;
+    color: rgb(246, 53, 117);
+    
 }
 .menu-icon-btn {
     display: none;

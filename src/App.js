@@ -11,7 +11,7 @@ function App() {
     
     <Router>    
     <Navbar />   
-    <Container>
+    <Container >
       <div className="content">
           <Routes />
       </div>

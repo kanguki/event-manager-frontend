@@ -5,19 +5,25 @@ import { Button, Form, FormGroup, Input, Container, Col, Alert, Row } from 'reac
 export default function Register({history}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [repeatPassword, setRepeatPassword] = useState("")
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [errorMember, setErrorMember] = useState(null)
     const [errorFillForm, setErrorFillForm] = useState(null)
 
+
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (email===""|| password===""|| firstName===""|| lastName==="") {
+        e.preventDefault();       
+         if (email===""|| password===""|| firstName===""|| lastName==="") {
             setErrorFillForm("Please fill in all required parts.")
             setTimeout(() => {
                 setErrorFillForm(null)
             },2000)
-        } else {
+        }
+        else if (password!=="" && repeatPassword!== "" && repeatPassword !== password) {
+            setErrorFillForm("Password doesn't match")
+         }
+        else {
             const response = await api.post('/sign-up', { email, password, firstName, lastName })
             const token = response.data.token || false;
             const user_id = response.data.user_id || false
@@ -26,6 +32,7 @@ export default function Register({history}) {
                 localStorage.setItem('token', token)
                 localStorage.setItem('user_id', user_id)
                 history.push('/')
+                window.location.reload()
             } else {
                 const { message } = response.data
                 setErrorMember(message)
@@ -33,9 +40,7 @@ export default function Register({history}) {
                     setErrorMember(null)
                 },2000)
             }
-        }
-
-        
+        }       
     }
 
     return (
@@ -59,16 +64,21 @@ export default function Register({history}) {
                     <Input type="password" name="password" id="password" placeholder="Your Password"
                     onChange={e => setPassword(e.target.value)}/>
                 </FormGroup>
+                <FormGroup >
+                    <Input type="password" name="rePassword" id="rePassword" placeholder="Repeat password"
+                    onChange={e => setRepeatPassword(e.target.value)}/>
+                </FormGroup>
                 <Row>
 
                 <Col xs="6" sm="8">
                     <Button className="submit-btn" >Sign up</Button>
                 </Col>
                 
-                <Col xs="6" sm="4">
+                    <Col xs="6" sm="4">
                     <Button className="secondary-btn" onClick={() => history.push('/login')}>
                         Sign in
                     </Button>
+                    
                 </Col>
                 </Row>
             </Form>
