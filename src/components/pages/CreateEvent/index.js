@@ -62,7 +62,6 @@ export default function EventsPage({history}) {
     return (
         <Container> 
             <Button className="side-btn" onClick={()=>history.push('/')}>Back to dashboard</Button>
-            <h3>In here you can create your own events!</h3>
             <Form onSubmit={handleSubmit}>
 {/* TITLE */}
                 <FormGroup row>
