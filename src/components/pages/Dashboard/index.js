@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import {
      CardImg, CardText, CardBody,
-     Button, CardHeader, CardFooter,ButtonGroup, Alert
+     Button, CardHeader, CardFooter, Alert, Popover, PopoverBody
 } from 'reactstrap';
 
 import moment from 'moment'
@@ -13,114 +13,174 @@ export default function Dashboard({history}) {
     const user_id = localStorage.getItem('user_id');
     const token = localStorage.getItem('token')
     const [events, setEvents] = useState([])
+    const [eventsDisplay, setEventsDisplay] = useState([])
     const [rSelected, setRSelected] = useState(null)
     const [mes, setMessage] = useState(null)
+    const [joinedMes, setJoinedMes] = useState(null)
+    const [eventsRequest, setEventsRequest] = useState([])
+    const [showFilterOptions, setShowFilterOptions] = useState(false)
+    const [popoverOpen, setPopoverOpen] = useState(false);
+    const [joinRequestHandle, setJoinRequestHandle] = useState(null)
 
-//by default, it will render whenever there is any part in the component changes
-//useEffect runs when component did mount or component did update
+    //this socket only changes when user_id in the local storage changes
+    const socket = useMemo(() =>
+        socketio('http://localhost:8000', { query: { user: user_id } })
+        ,[user_id])
+
+//useEffect runs when component in [] did mount or component in [] did update
+    //so when passing in an empty array, usestate will run once, as it will never update
     useEffect(() => {
         getEvents()
     }, [])
-    
 
-    useEffect(() => {
-        const socket = socketio('http://localhost:8000', { query: { user:user_id } })
+
+    useEffect(() => {                
         socket.on('registration_request', dataReceived => {
-            console.log(dataReceived)
+            setEventsRequest([...eventsRequest, dataReceived])
         })
-    },[])
-
-    const getEvents = async (activity) => {
-            const url = activity ? `/dashboard/${activity}` : `/dashboard`
-            const response = await api.get(url)
+    },[eventsRequest, socket])
+ 
+    const getEvents = async () => {
+            const response = await api.get('/dashboard')
             setEvents(response.data)
-        }
-    const filterHandler = (prop) => {
-        setRSelected(prop)        
-        getEvents(prop)
+            setEventsDisplay(response.data)
+    }
+
+    const filterHandler = async (activity) => {
+        setRSelected(activity)       
+        const url = activity ?  `/dashboard/${activity}` : `/dashboard`
+        const response = await api.get(url)
+        setEventsDisplay(response.data)
     }
     const myEventsHandler = async () => {
-        setRSelected("myEvents") 
-
-        try {           
+        setRSelected("myEvents")       
             if (token && user_id) {      
                 const response = await api.get('/events/yourEvents', { headers: { token } })
-                setEvents(response.data.event)
+                setEventsDisplay(response.data.event)
             } else {
                 setMessage("You havent signed in yet")
                 setTimeout(() => {
                     setMessage(null)
                 }, 2000);
-            }
-        } catch (err) {
-            Promise.reject(err)
-        }        
+            }     
     }
     const deleteHandler = async (event_id) => {
         let confirmDelete = window.confirm("Are you sure?");
         if (confirmDelete === true) {
             await api.delete(`/events/remove/${event_id}`,{headers:{token}})
-            window.location.reload()
+            getEvents()
         } else {
             return 
         }       
     }
-
     const joinHandler = async (event) => {
-        try {         
-            let confirmDelete = window.confirm("Are you sure?");
-            if (confirmDelete === true) {
-                await api.post(`/registration/register/${event._id}`, {}, { headers: { token } })
-                setMessage(`Successfully registered for ${event.title}. Wait for owner's approvement!`)
+            setRSelected(event._id)
+            if (token) {        
+                const checkJoin = await api.get(`/registration/check/${event._id}`, { headers: { token } })
+                if (checkJoin.data.status === true) {
+                    setJoinedMes("You already subscribed to this event") 
+                    setTimeout(() => {
+                        setJoinedMes(null)
+                    }, 1000)
+                    return
+                }             
+            } else {
+                setJoinedMes("You haven't logged in yet")
                 setTimeout(() => {
-                    setMessage(null)
-                },3000)
+                    setJoinedMes(null)
+                }, 1000)
+                return
+            } 
+
+            let confirmJoin = window.confirm("Are you sure?");
+            if (confirmJoin === true) {
+                await api.post(`/registration/register/${event._id}`, {}, { headers: { token } })
+                setJoinedMes("Successfully sent request!")
+                setTimeout(() => {
+                setJoinedMes(null)
+                }, 1000)
             } else {
                 return 
             }  
-            
-        } catch (error) {
-            setMessage(`The registration has not been made...`)
-            setTimeout(() => {
-                setMessage(null)
-            },1000)
-        }
+
+    }
+    const acceptRequestHandler = async (request,person,event) => {
+        await api.post(`/registration/${request._id}/approve`)
+        setJoinRequestHandle(`Accept ${person} to join ${event}!`)
+        setTimeout(() => {
+            setJoinRequestHandle(null)
+            setEventsRequest(eventsRequest.slice(1,eventsRequest.length))
+        }, 500);
+    }
+    const rejectRequestHandler = async (request,person,event) => {
+        await api.delete(`/registration/remove/${request._id}`,{headers: {token}})     
+        setJoinRequestHandle(`Block ${person}'s request to join ${event}!`)
+        setTimeout(() => {
+            setJoinRequestHandle(null)
+            setEventsRequest(eventsRequest.slice(1,eventsRequest.length))
+        }, 500);
     }
 
-    const updateHandler = async (event_id) => {
-        return
-    }
-
+    const toggle = () => setPopoverOpen(!popoverOpen);
     const eventsNoRepeat = []
-
     return (
         <>
-            <ButtonGroup>
-                <Button key="" onClick={() => filterHandler(null)} active={rSelected === null}>
-                    All events
-                </Button>
-            </ButtonGroup>
-            <div className="separate">
-                {
-                    events.map(event => {
+            <ul className="notifications">
+                {eventsRequest.map(request =>                 
+                    joinRequestHandle ?
+                        (<Alert className="noti" key={request._id}
+                            color={joinRequestHandle.includes('Accept') ? "info" : "danger"}>
+                            {joinRequestHandle}</Alert>) :                    
+                        (<li key={request._id}>
+                            <p>
+                                <strong>{request.user_id.email}</strong> 
+                                requested to join 
+                                <strong>{request.event_id.title}</strong>
+                                <Button color="info"
+                                    onClick={() =>
+                                        acceptRequestHandler(request, request.user_id.email, request.event_id.title)}>
+                                    Accept</Button>
+                                <Button color="danger"
+                                    onClick={() =>
+                                        rejectRequestHandler(request, request.user_id.email, request.event_id.title)}>
+                                    Reject</Button>
+                            </p>
+                        </li>)                   
+                )}
+            </ul>
+            <Button id="Popover1" className="side-stick" outline color="primary"
+                onClick={() => setShowFilterOptions(!showFilterOptions)}>
+                {!showFilterOptions ?
+                <i className="fa fa-search-plus"></i> :
+                <i className="fa fa-search-minus"></i>}
+            </Button>
+            <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle}>
+                <PopoverBody>        
+                    <div className={showFilterOptions ? "filter-btn" : "filter-btn hide"}>
+                        <Button className="all-events" key="" onClick={() => filterHandler(null)} active={rSelected === null}>
+                            All events
+                        </Button>            
+                        {
+                            events.map(event => {
 
-                        const act = `${event.activity}`                        
-                        if (!eventsNoRepeat.includes(act)) {      
-                            eventsNoRepeat.push(act) 
-                            
-                            return (                                                                                                         
-                                    <Button key={event._id} onClick={() => filterHandler(act)}
-                                        active={rSelected === act}>
-                                        {act}
-                                    </Button>                                    
-                                )
+                                const act = `${event.activity}`                        
+                                if (!eventsNoRepeat.includes(act)) {      
+                                    eventsNoRepeat.push(act) 
+                                    
+                                    return (                                                                                                         
+                                            <Button key={event._id} onClick={() => filterHandler(act)}
+                                                active={rSelected === act}>
+                                                {act}
+                                            </Button>                                    
+                                        )
+                                }
+                                return ""
+                            }) 
                         }
-                        return ""
-                    }) 
-                }
 
-            </div>
-            {/* Lead to createing-event page             */}
+                    </div>
+                </PopoverBody>
+            </Popover>
             <div className="side-btn">
                 <Button className="side-btn" onClick={myEventsHandler} active={rSelected === "myEvents"}>
                     My Events
@@ -132,10 +192,24 @@ export default function Dashboard({history}) {
 
             <ul className="events-list">
                 {                  
-                    events.map(event => (                   
+                    eventsDisplay.map(event => (                   
                         <li key={event._id}>
-                            <CardHeader><span id="long-title">{event.title}</span>
-                                <Button className="sub-btn" onClick={() => joinHandler(event)}>Join</Button></CardHeader>
+                            {
+                                joinedMes && rSelected === event._id ?
+                                (<Alert className={joinedMes === "Successfully sent request!" ? "side-alert green" : "side-alert"}>
+                                {joinedMes}
+                                </Alert>) : ""
+                            }   
+                            <CardHeader>
+                            <span id="long-title"> {event.title} </span>
+                            {event.user_id !== user_id ? (                                
+                                    <Button className="join sub-btn"
+                                    onClick={() => joinHandler(event)} >
+                                    Join
+                            </Button>
+                            ) : ""}    
+                                
+                            </CardHeader>
                             <CardBody>
                                 <CardImg src={event.thumbnail_url} />
                                 <CardText><strong>#{event.activity}</strong></CardText>
@@ -146,17 +220,18 @@ export default function Dashboard({history}) {
                             {event.user_id === user_id ?
                                 (<>
                                     <Button className="sub-btn modi del" onClick={()=>deleteHandler(event._id)}>Delete</Button>
-                                    <Button className="sub-btn modi upd" onClick={()=>updateHandler(event._id)}>Update</Button>
                                 </>) 
-                                : ""}
+                            : ""}
+
                             </CardFooter>
                         </li>                  
                     ))
                 }
             </ul>
             {
-                events.length === 0 ? (<Alert color="warning">You haven't created any events yet</Alert>) : ""
-
+                eventsDisplay.length === 0 && rSelected==="myEvents" ? 
+                (<Alert color="warning">You haven't created any events yet</Alert>) :
+                ""
             }
         </>
     )

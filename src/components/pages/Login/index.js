@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import api from '../../../services/api'
 import { Button, Form, FormGroup, Input, Container, Alert, Col, Row } from 'reactstrap';
+import './login.css'
 
 export default function Login({history}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [errorFill, setErrorFill] = useState(false)
-    const [errorAuth,setErrorAuth] = useState(null)
-
+    const [errorAuth, setErrorAuth] = useState(null)
+    const [errNotConfirm, setErrNotConfirm] = useState(null)
+    const [click,setClick] = useState(false)
+    
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -25,14 +29,21 @@ export default function Login({history}) {
                     history.push('/')
                     window.location.reload()
                 } else {
-                    const { message } = response.data
+                    const { message, wantToConfirm } = response.data
                     setErrorAuth(message)
-                    setTimeout(() => {
-                        setErrorAuth(null)
-                    }, 2000)
+                    if (wantToConfirm) {
+                        
+                        setErrNotConfirm(`here`)
+                    } else {
+                        
+                        setErrNotConfirm(null)
+                    } 
                 }
             } else {
+                
                 setErrorFill(true)
+                setErrorAuth(null)
+                setErrNotConfirm(null)
                 setTimeout(() => {
                     setErrorFill(false)
                 }, 2000)
@@ -41,8 +52,20 @@ export default function Login({history}) {
         } catch (error) {
             Promise.reject(error)
         }
+ 
+    }
 
-        
+    const handleGetLink = async () => {
+        setClick(true)
+        setErrNotConfirm(`Sending... `)
+        const res = await api.post('/reconfirm-email', { email: email })
+        if (res.data.message) {
+            setTimeout(() => {
+                setErrNotConfirm(res.data.message)
+            },2000)  
+        } else {
+            setErrNotConfirm(`Something went wrong. Please try again after 10 minutes`)
+        }
     }
 
     return (
@@ -80,6 +103,25 @@ export default function Login({history}) {
                 errorAuth ?
                     (<Alert className="auth-err"
                     color="warning">{errorAuth}</Alert>) :
+                    ""
+            }
+            {
+                errNotConfirm && click ? 
+                    (<p className="auth-err get-link">
+                        {errNotConfirm}<i className="fas fa-spinner fa-pulse"></i>
+                    </p>) :
+                    ""
+            }
+            {
+            errNotConfirm && !click ? 
+                (<div className="ask-reconfirm">
+                    <p>Not received a confirmation link?</p>
+                    <p>Click <span className="auth-err get-link"
+                        onClick={handleGetLink}>{errNotConfirm} </span>to get it again.
+                    </p>
+                
+                </div> 
+                ) :
                     ""
             }
         </Container>

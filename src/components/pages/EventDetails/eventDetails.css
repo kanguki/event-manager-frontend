@@ -1,0 +1,10 @@
+.card{
+    width: 50%;
+    left: 25%;
+}
+.card-link{
+    cursor: pointer;
+    background-color: rgb(255, 80, 109);
+    color: white;
+    padding: 5px;
+}

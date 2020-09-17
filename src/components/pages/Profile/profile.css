@@ -1,0 +1,50 @@
+button.label{
+    width: 100px;
+    height: 50px;
+    font-size: 12px;
+    font-weight: 700;
+}
+input.form-control{
+    height: 50px;
+}
+.col-input{
+    height: 400px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 20px 1fr 10px;    
+}
+div.input-group{
+    display: flex;
+    align-content: center;
+}
+button.red{
+    color: rgb(255, 148, 148);
+    font-weight: 700;
+}
+button.red:hover{
+    color: rgb(248, 0, 0);
+    text-decoration: underline;
+}
+button.blue{
+    color: rgb(92, 92, 255);
+    font-weight: 700;
+}
+button.blue:hover{
+    color: rgb(0, 0, 253);
+    text-decoration: underline;
+}
+button.green{
+    color: rgb(47, 160, 36);
+    font-weight: 700;
+}
+button.green:hover{
+    color: white ;
+    background-color: rgb(21, 253, 0);
+}
+button.submit{
+    color: rgb(228, 82, 82);
+    font-weight: 700;
+}
+button.submit:hover{
+    color: white ;
+    background-color: rgb(255, 53, 53);
+}

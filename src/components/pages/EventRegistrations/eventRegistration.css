@@ -1,0 +1,11 @@
+.elastic {
+    max-width: 200px;
+}
+@media (max-width: 960px){
+    div.p-btn{
+        display: block;
+    }
+    div.col-btn{
+        flex-direction: row;
+    }
+}

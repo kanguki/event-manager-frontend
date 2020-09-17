@@ -3,14 +3,14 @@
 import React, { useState, useMemo } from 'react'
 import api from '../../../services/api'
 import { Button, Form, FormGroup, Input, Container, Label, Alert, Col } from 'reactstrap';
-import cameraIcon from "../../../assets/camera.png"
 import './events.css'
+// import cameraIcon from "../../../assets/camera.png"
 
 export default function EventsPage({history}) {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [price, setPrice] = useState("")
-    const [thumbnail, setThumbnail] = useState(null)
+    const [thumbnail, setThumbnail] = useState("")
     const [activity, setActivity] = useState("")
     const [date, setDate] = useState("")
     const [errorMessage, setErrorMessage] = useState(false)
@@ -23,18 +23,12 @@ export default function EventsPage({history}) {
         if (!token) {
             setErrorMember("You haven't logged in yet")
         } else {
-            const eventData = new FormData()
-            eventData.append('thumbnail', thumbnail)
-            eventData.append('title', title)
-            eventData.append('description', description)
-            eventData.append('activity', activity)
-            eventData.append('date', date)
-            eventData.append('price', price)
+            const eventToSent = {thumbnail, title, description, activity,date, price}
             try {
-                if (thumbnail !== null && title !== "" && description !== "" &&
-                    activity !== "" && date !== "" && price !== "") {
-                    await api.post('/events/add', eventData, { headers: { token } })
-                    //remember to wrap user_id with {} or else it wont work  
+                if (thumbnail !== "" && title !== "" && description !== "" &&
+                activity !== "" && date !== "" && price !== "") {
+                    await api.post('/events/add', eventToSent, { headers: { token } })
+                    //remember to wrap token with {} or else it wont work  
                     setTimeout(() => {
                         history.push('/')
                     }, 1000)
@@ -56,9 +50,9 @@ export default function EventsPage({history}) {
     }
     //when thumbnail change, return value
     //if there is a file, display its prev
-    const preview = useMemo(() => {
-        return thumbnail ? URL.createObjectURL(thumbnail) : null
-    },[thumbnail])
+    // const preview = useMemo(() => {
+    //     return thumbnail ? URL.createObjectURL(thumbnail) : null
+    // },[thumbnail])
     return (
         <Container> 
             <Button className="side-btn" onClick={()=>history.push('/')}>Back to dashboard</Button>
@@ -90,12 +84,16 @@ export default function EventsPage({history}) {
                     </Col>
                 </FormGroup>
 {/* upload image                */}
-                <FormGroup>
-                    <Label><h6>Upload image: </h6></Label>
-                    <Label id="thumbnail" style={{ backgroundImage: `url(${preview})` }} className={thumbnail ? "has-thumbnail" : ""}>                         
-                        <Input type="file"  onChange={e => setThumbnail(e.target.files[0])} />
-                        <img src={cameraIcon} alt="icon" style={{ maxWidth: "50px" }} />                        
-                    </Label>
+                <FormGroup row>
+                    <Label for="thumbnail" sm={2}><h6>Upload image: </h6></Label>
+                    <Col sm={10}>
+                        <Input placeholder="URL" id="thumbnail"
+                            onChange={e => setThumbnail(e.target.value)} />
+                    </Col>    
+                    {/* <Label id="thumbnail" style={{ backgroundImage: `url(${preview})` }} >   */}
+                        {/* <img src={cameraIcon} alt="icon" style={{ maxWidth: "50px" }} /> 
+                        className={thumbnail ? "has-thumbnail" : ""}                        */}
+                    {/* </Label> */}
                 </FormGroup>
 {/* DESCRIPTION */}
                 <FormGroup row>

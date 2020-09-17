@@ -4,6 +4,7 @@ import './Navbar.css'
 
 export default function Navbar({history}) {
     const [click, setClick] = useState(false)
+    
     const handleClick = (e) => {
         setClick(!click)
     }
@@ -26,40 +27,52 @@ export default function Navbar({history}) {
         }
     }
 
-    // const showButton = () => {
-    //     if(window.innerWidth <=720) setButton(false)
-    //     else setButton(true)
-    // }
-    // useEffect(() => {
-    //     document.addEventListener('click', () => {
-    //         if (click) setClick(false)
-            
-    //      })
-    // },[])
 
-    
+
     
     return (
         <div className="nav">            
         <div className="nav-container">
                          
-            <Link to="/" className="logo" onClick={e=>closeMobileMenu(e)} title="Home page">Logo</Link>
+                <Link to="/" className="logo" onClick={e => closeMobileMenu(e)} title="Home page">
+                    Eman</Link>
             
-            <ul className={click ? "nav-menu mobile" :"nav-menu"}>
+                <ul className={click ? "nav-menu mobile" : "nav-menu"}>
                 <li className="nav-item">
-                        <Link to="/dashboard" className="nav-link"
-                            onClick={e=>closeMobileMenu(e)}>Dashboard</Link>   
-                </li>    
-                <li className="nav-item">
-                        <Link to="/events" className="nav-link" onClick={e=>closeMobileMenu(e)}>Create</Link>   
+                        <Link to="/" className="nav-link"
+                            onClick={e => closeMobileMenu(e)}>
+                            {!click ? <i className="fa fa-th"></i> : "Dashboard"}</Link>   
                 </li>
                 <li className="nav-item">
-                    <Link to="/subscription" className="nav-link" onClick={e=>closeMobileMenu(e)}>Subscription</Link>   
+                        <Link to="/events" title="Create event"
+                            className="nav-link" onClick={e => closeMobileMenu(e)}>
+                            {!click ? <i className="fa fa-file-text"></i> : "Create"}</Link>   
+                </li>
+                <li className="nav-item">
+                        <Link to="/manage-requests"
+                            className="nav-link" title="Manage requests"
+                            onClick={e => closeMobileMenu(e)}>
+                            {!click ? <i className="fa fa-tasks"></i> : "Manage"}</Link>   
+                </li>    
+                
+                <li className="nav-item">
+                    <Link to="/my-subscriptions"
+                        title="My Subscription" className="nav-link"
+                        onClick={e => closeMobileMenu(e)}>
+                    {!click? <i className="fa fa-cart-arrow-down"></i>: "Subscription"}</Link>   
                 </li>        
                     {loggedIn && user_id ?
-                    (<li className="nav-item log">
-                        <Link to="/"  className="nav-link" onClick={handleLoggout}>Log out </Link>  
-                    </li>) :
+                    (<>
+                        <li className="nav-item">
+                            <Link to="/profile" title="My profile"
+                                className="nav-link" onClick={e => closeMobileMenu(e)}>
+                            {!click ? <i className="fa fa-user-circle"></i> : "Dashboard"} </Link>  
+                        </li>
+                        <li className="nav-item log">
+                            <Link to="/"  className="nav-link" onClick={handleLoggout}>Log out </Link>  
+                        </li>
+                        
+                    </>) :
                     (<>                            
                         <li className="nav-item log">
                             <Link to="/login" className="nav-link log" onClick={e=>closeMobileMenu(e)}>Sign in</Link>   

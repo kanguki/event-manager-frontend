@@ -4,12 +4,14 @@ import { Container } from 'reactstrap'
 import Routes from './routes';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router} from 'react-router-dom'
+ import ScrollToTop from './components/ScrollToTop';
 
 
 function App() {
   return (
     
-    <Router>    
+    <Router>   
+    <ScrollToTop/>
     <Navbar />   
     <Container >
       <div className="content">

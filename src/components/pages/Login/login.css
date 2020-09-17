@@ -1,0 +1,11 @@
+.get-link{
+    cursor: pointer;
+    color: rgb(154, 46, 255);
+    font-weight: 700;
+}
+.ask-reconfirm{
+    color: rgb(255, 27, 65);
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 0.1rem;
+}

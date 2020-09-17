@@ -1,0 +1,19 @@
+.cfm-container{
+    height: 500px;
+    display: grid;
+    grid-template-rows: auto 200px;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    overflow: hidden;
+
+}
+.header{
+    color: rgb(31, 31, 109);
+    align-content: center;
+}
+.welcome{
+    color: rgb(248, 80, 80);
+    font-weight: 500;
+}

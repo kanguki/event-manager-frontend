@@ -20,25 +20,23 @@ export default function Register({history}) {
                 setErrorFillForm(null)
             },2000)
         }
-        else if (password!=="" && repeatPassword!== "" && repeatPassword !== password) {
-            setErrorFillForm("Password doesn't match")
+        else if (password!==""  && repeatPassword !== password ) {
+             setErrorFillForm("Password doesn't match")
+             setTimeout(() => {
+                 setErrorFillForm(null)
+             },2000)
          }
-        else {
-            const response = await api.post('/sign-up', { email, password, firstName, lastName })
-            const token = response.data.token || false;
-            const user_id = response.data.user_id || false
-
-            if (user_id && token) {
-                localStorage.setItem('token', token)
-                localStorage.setItem('user_id', user_id)
-                history.push('/')
-                window.location.reload()
-            } else {
-                const { message } = response.data
+         else {
+            const response = await api.post('/sign-up', { email, password, firstName, lastName })               
+            const {ok, message} = response.data
+            if (ok) {      
                 setErrorMember(message)
                 setTimeout(() => {
-                    setErrorMember(null)
-                },2000)
+                    history.push('/')
+                }, 4000);
+                
+            } else {
+                setErrorMember(message)
             }
         }       
     }
