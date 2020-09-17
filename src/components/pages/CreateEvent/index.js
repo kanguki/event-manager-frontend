@@ -1,6 +1,6 @@
 //get data from form, put it into a FormData instance, append properties, send with headers: {user_id}
 
-import React, { useState, useMemo } from 'react'
+import React, { useState } from 'react'
 import api from '../../../services/api'
 import { Button, Form, FormGroup, Input, Container, Label, Alert, Col } from 'reactstrap';
 import './events.css'
