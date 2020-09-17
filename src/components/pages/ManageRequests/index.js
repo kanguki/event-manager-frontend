@@ -14,11 +14,14 @@ export default function ManageRequests({history}) {
     }, [])
 
     const getRequests = async () => {
-        if(!token) history.push('/')
-        const results = await api.get('/registration/manage/requests', { headers: { token } })
-        setRequestsArray(results.data)  
-        setArrayNotChecked(results.data)
-        setSelectAll(false)
+        if (!token) history.push('/')
+        else {
+            const results = await api.get('/registration/manage/requests', { headers: { token } })
+            setRequestsArray(results.data)  
+            setArrayNotChecked(results.data)
+            setSelectAll(false)
+            
+        }
     }
 
     const getAllRequests = async () => {
