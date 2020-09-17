@@ -14,10 +14,10 @@ body {
     background-size: cover;
     -webkit-font-smoothing: antialiased !important;
 }
-body, input, button {
+/* body, input, button {
     font-family: 'Comfortaa', cursive;
     font-weight: 40px;
-}
+} */
 ::selection {
     color: white;
     background: rgb(0, 0, 0);

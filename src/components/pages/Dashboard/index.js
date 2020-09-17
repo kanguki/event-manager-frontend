@@ -24,7 +24,7 @@ export default function Dashboard({history}) {
 
     //this socket only changes when user_id in the local storage changes
     const socket = useMemo(() =>
-        socketio('http://localhost:8000', { query: { user: user_id } })
+        socketio('https://uki-event-manager.herokuapp.com', { query: { user: user_id } })
         ,[user_id])
 
 //useEffect runs when component in [] did mount or component in [] did update
