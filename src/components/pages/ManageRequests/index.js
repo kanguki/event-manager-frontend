@@ -46,7 +46,7 @@ export default function ManageRequests({history}) {
     return (
         <>
             <h4 style={{fontWeight: "700"}}>List of requests to join your events</h4>
-            <h6 style={{fontStyle: "italic"}}>Click on event's title to see list of each event</h6>
+            <h6 style={{fontStyle: "italic"}}>Click on <span style={{color:"red"}}>event's title</span> to see list of each event</h6>
             <div className="row-btn">
 
                 <Button outline color="primary" title="Unchecked requests"
