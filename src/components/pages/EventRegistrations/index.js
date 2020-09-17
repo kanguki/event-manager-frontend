@@ -13,7 +13,7 @@ export default function EventRegistrations({history}) {
     useEffect(() => {
         getAllRequestsToThisEvent()
     }, [])
-    console.log(requests)
+    
     const getAllRequestsToThisEvent = async () => {
         const query = window.location.pathname
         const res = await api.get(`${query}`, { headers: { token } })
