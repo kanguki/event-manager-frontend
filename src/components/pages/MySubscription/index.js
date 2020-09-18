@@ -13,9 +13,12 @@ export default function MySubscription({history}) {
 
     const getSubs = async () => {
         
-        const result = await api.get('/registration/my/registrations', { headers: { token } })
-        if (result) {
-            setSubs(result.data)     
+        if (token) {
+            
+            const result = await api.get('/registration/my/registrations', { headers: { token } })
+            if (result) {
+                setSubs(result.data)     
+            }
         }
         
     }
