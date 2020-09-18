@@ -15,8 +15,9 @@ export default function EventRegistrations({history}) {
     }, [])
     
     const getAllRequestsToThisEvent = async () => {
-        const query = window.location.pathname
-        const res = await api.get(`${query}`, { headers: { token } })
+        const start = window.location.href.indexOf('/#')
+        const path = window.location.href.slice(start+2)
+        const res = await api.get(`${path}`, { headers: { token } })
         setRequests(res.data)
     }
     const acceptRequestHandler = async (request,person) => {

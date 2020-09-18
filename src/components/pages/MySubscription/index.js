@@ -12,11 +12,12 @@ export default function MySubscription({history}) {
     }, [])
 
     const getSubs = async () => {
-        if (!token) history.push('/')
-        else { 
-            const result = await api.get('/registration/my/registrations', { headers: { token } })
-            setSubs(result.data)
+        
+        const result = await api.get('/registration/my/registrations', { headers: { token } })
+        if (result) {
+            setSubs(result.data)     
         }
+        
     }
     const cancelHandler = async (s_id, event) => {        
         const cfm = window.confirm('Are you sure to cancel this request')

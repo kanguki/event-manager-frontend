@@ -14,14 +14,17 @@ export default function ManageRequests({history}) {
     }, [])
 
     const getRequests = async () => {
-        if (!token) history.push('/')
-        else {
+        
             const results = await api.get('/registration/manage/requests', { headers: { token } })
-            setRequestsArray(results.data)  
-            setArrayNotChecked(results.data)
-            setSelectAll(false)
             
-        }
+            if (results) {
+                
+                setRequestsArray(results.data)  
+                setArrayNotChecked(results.data)
+                setSelectAll(false)
+            }
+        
+        
     }
 
     const getAllRequests = async () => {
@@ -114,7 +117,7 @@ export default function ManageRequests({history}) {
                 token && requestsArray.length === 0 && selectAll ?
                 (<Alert className="noti" >
                     We couldn't find any requests.
-                    No one has register to join your events or you haven't created one...
+                    No one has registered to join your events or you haven't created one...
                 </Alert>) :
             ""}
         </ul>

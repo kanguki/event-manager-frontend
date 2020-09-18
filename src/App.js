@@ -5,12 +5,12 @@ import Routes from './routes';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router} from 'react-router-dom'
  import ScrollToTop from './components/ScrollToTop';
-
+ import { HashRouter } from 'react-router-dom'
 
 function App() {
   return (
     
-    <Router>   
+    <HashRouter>   
     <ScrollToTop/>
     <Navbar />   
     <Container >
@@ -18,7 +18,7 @@ function App() {
           <Routes />
       </div>
       </Container> 
-    </Router>
+    </HashRouter>
     
     
       

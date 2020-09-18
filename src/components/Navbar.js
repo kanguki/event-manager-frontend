@@ -66,7 +66,7 @@ export default function Navbar({history}) {
                         <li className="nav-item">
                             <Link to="/profile" title="My profile"
                                 className="nav-link" onClick={e => closeMobileMenu(e)}>
-                            {!click ? <i className="fa fa-user-circle"></i> : "Dashboard"} </Link>  
+                            {!click ? <i className="fa fa-user-circle"></i> : "Profile"} </Link>  
                         </li>
                         <li className="nav-item log">
                             <Link to="/"  className="nav-link" onClick={handleLoggout}>Log out </Link>  

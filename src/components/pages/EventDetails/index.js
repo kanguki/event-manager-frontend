@@ -14,11 +14,13 @@ export default function EventDetails({history}) {
         getEvent()
     }, [])
     
-    const path = window.location.pathname
-
+    const start = window.location.href.indexOf('/#')
+    const path = window.location.href.slice(start+2)
     const getEvent = async () => {
+        
         const result = await api.get(`${path}`)
         setEvent(result.data)
+        
     }
 
     return (

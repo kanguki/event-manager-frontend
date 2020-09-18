@@ -8,8 +8,8 @@ export default function Login({history}) {
     const [password, setPassword] = useState("")
     const [errorFill, setErrorFill] = useState(false)
     const [errorAuth, setErrorAuth] = useState(null)
-    const [errNotConfirm, setErrNotConfirm] = useState(null)
-    const [click,setClick] = useState(false)
+    // const [errNotConfirm, setErrNotConfirm] = useState(null)
+    // const [click,setClick] = useState(false)
     
     
     const handleSubmit = async (e) => {
@@ -20,8 +20,8 @@ export default function Login({history}) {
             // else send  error not yet fully filled
             if ( email!=="" && password!=="" ) {
                 const response = await api.post('/login', { email, password })
-                const userId = response.data.user_id || false;
-                const token = response.data.token || false
+                const userId = response.data.user_id 
+                const token = response.data.token 
  
                 if ( token && userId) {
                     localStorage.setItem('token', token)
@@ -29,21 +29,13 @@ export default function Login({history}) {
                     history.push('/')
                     window.location.reload()
                 } else {
-                    const { message, wantToConfirm } = response.data
-                    setErrorAuth(message)
-                    if (wantToConfirm) {
-                        
-                        setErrNotConfirm(`here`)
-                    } else {
-                        
-                        setErrNotConfirm(null)
-                    } 
+                    setErrorAuth(response.data.message)
+                    setErrorFill(null)
                 }
             } else {
                 
                 setErrorFill(true)
                 setErrorAuth(null)
-                setErrNotConfirm(null)
                 setTimeout(() => {
                     setErrorFill(false)
                 }, 2000)
@@ -55,18 +47,18 @@ export default function Login({history}) {
  
     }
 
-    const handleGetLink = async () => {
-        setClick(true)
-        setErrNotConfirm(`Sending... `)
-        const res = await api.post('/reconfirm-email', { email: email })
-        if (res.data.message) {
-            setTimeout(() => {
-                setErrNotConfirm(res.data.message)
-            },2000)  
-        } else {
-            setErrNotConfirm(`Something went wrong. Please try again after 10 minutes`)
-        }
-    }
+    // const handleGetLink = async () => {
+    //     setClick(true)
+    //     setErrNotConfirm(`Sending... `)
+    //     const res = await api.post('/reconfirm-email', { email: email })
+    //     if (res.data.message) {
+    //         setTimeout(() => {
+    //             setErrNotConfirm(res.data.message)
+    //         },2000)  
+    //     } else {
+    //         setErrNotConfirm(`Something went wrong. Please try again after 10 minutes`)
+    //     }
+    // }
 
     return (
         <Container>
@@ -105,7 +97,7 @@ export default function Login({history}) {
                     color="warning">{errorAuth}</Alert>) :
                     ""
             }
-            {
+            {/* {
                 errNotConfirm && click ? 
                     (<p className="auth-err get-link">
                         {errNotConfirm}<i className="fas fa-spinner fa-pulse"></i>
@@ -123,7 +115,7 @@ export default function Login({history}) {
                 </div> 
                 ) :
                     ""
-            }
+            } */}
         </Container>
     )
 }

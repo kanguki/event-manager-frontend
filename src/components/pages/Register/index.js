@@ -26,17 +26,19 @@ export default function Register({history}) {
                  setErrorFillForm(null)
              },2000)
          }
-         else {
+         else { 
             const response = await api.post('/sign-up', { email, password, firstName, lastName })               
-            const {ok, message} = response.data
-            if (ok) {      
-                setErrorMember(message)
-                setTimeout(() => {
-                    history.push('/')
-                }, 4000);
+            const {token,user_id,name} = response.data
+                if (token) {
+                    localStorage.setItem('token', token)
+                    localStorage.setItem('user_id', user_id)
+                    setErrorMember(`Thank you for registering, ${name}. Happy surfing!`)
+                    setTimeout(() => {
+                        history.push('/')
+                    },3000)
                 
             } else {
-                setErrorMember(message)
+                setErrorMember(response.data.message)
             }
         }       
     }
