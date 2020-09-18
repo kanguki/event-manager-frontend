@@ -88,7 +88,7 @@ a.nav-link:hover{
 }
 .logo:hover{
     text-decoration: none;
-    color: rgb(246, 53, 117);
+    color: rgb(246, 162, 53);
     
 }
 .menu-icon-btn {
@@ -96,7 +96,7 @@ a.nav-link:hover{
 }
 
 .nav-item:active{
-    background-color: #ff0f0f;
+    background-color: #ff7373;
 }
 @media (max-width:720px){
     .nav-container{

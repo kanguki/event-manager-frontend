@@ -77,10 +77,12 @@ export default function Profile({history}) {
             await api.delete('/user/my-account', { headers: { token } })
             localStorage.removeItem('user_id')
             localStorage.removeItem('token')
-            setSuccessMessage("We are sorry to let you go 😧")  
-
-            history.push('/')
-            window.location.reload()
+            setSuccessMessage("We are sorry to let you go. Hope you will come back one day")  
+            setTimeout(() => {
+                history.push('/')
+                window.location.reload()
+            },4000)
+            
         }else return                    
 
     }

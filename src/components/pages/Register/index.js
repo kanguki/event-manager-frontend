@@ -32,9 +32,10 @@ export default function Register({history}) {
                 if (token) {
                     localStorage.setItem('token', token)
                     localStorage.setItem('user_id', user_id)
-                    setErrorMember(`Thank you for registering, ${name}. Happy surfing!`)
+                    setErrorMember(`Thank you for registering, ${name}. Happy browsing!`)
                     setTimeout(() => {
                         history.push('/')
+                        window.location.reload()
                     },3000)
                 
             } else {
