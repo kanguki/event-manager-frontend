@@ -125,6 +125,8 @@ export default function Dashboard({history}) {
     const eventsNoRepeat = []
     return (
         <>
+            
+            {events.length==0 ? <Alert color="info" style={{justifyContent: "center"}}>Waiting for server to get events... <i className="fa fa-spinner"></i></Alert> : ""}
             <ul className="notifications">
                 {eventsRequest.map(request =>                 
                     joinRequestHandle ?
